@@ -26,7 +26,7 @@ def run_once(seed):
     time.sleep(SETTLE_TIME)
 
     mission_proc = subprocess.run(
-        [sys.executable, 'mission.py', '--seed', str(seed)]
+        [sys.executable, 'old_mission.py', '--seed', str(seed)]
     )
 
     if mission_proc.returncode != 0:
