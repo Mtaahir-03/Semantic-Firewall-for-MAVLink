@@ -8,6 +8,7 @@ import math
 import time
 import random
 import argparse
+import sys
 from pymavlink import mavutil
 
 CONNECTION_STRING = 'udp:127.0.0.1:14551'
@@ -115,6 +116,15 @@ def wait_until_position(mav, target_lat, target_lon, tolerance=2.0, timeout=60):
                 return True
     return False
 
+def wait_for_disarm(mav, timeout=90):
+    """Polls heartbeats until the ARMED flag clears, confirming touchdown."""
+    start = time.time()
+    while time.time() - start < timeout:
+        msg = mav.recv_match(type='HEARTBEAT', blocking=True, timeout=5)
+        if msg:
+            if not (msg.base_mode & mavutil.mavlink.MAV_MODE_FLAG_SAFETY_ARMED):
+                return True
+    return False
 
 def main():
     parser = argparse.ArgumentParser()
@@ -157,7 +167,13 @@ def main():
 
     print('Returning to land')
     land(mav)
-    time.sleep(10)
+    
+    if wait_for_disarm(mav):
+        print('Confirmed landed and disarmed.')
+    else:
+        print('WARNING: Landing/Disarm timeout. Vehicle state uncertain.')
+        sys.exit(1)
+        
     print('Mission complete')
 
 
