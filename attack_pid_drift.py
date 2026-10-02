@@ -18,7 +18,7 @@ import os
 import sys
 from pymavlink import mavutil
 
-CONNECTION_STRING = 'udp:127.0.0.1:14551'
+CONNECTION_STRING = 'udp:127.0.0.1:14552'
 ATTACK_LOG_DIR = '/mnt/hgfs/Dataset/AttackGroundTruth'
 
 HOME_LAT = -35.363262
