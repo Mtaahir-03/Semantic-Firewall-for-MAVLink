@@ -14,7 +14,7 @@ import os
 import signal
 from collections import deque
 from pymavlink import mavutil
-from rule_detectorV1 import RuleBasedDetector
+from rule_detector import RuleBasedDetector
 
 FC_PORT = 'udp:127.0.0.1:14551'
 CC_PORT = 'udpout:127.0.0.1:14552'
